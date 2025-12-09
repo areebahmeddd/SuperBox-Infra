@@ -20,13 +20,6 @@ resource "aws_lambda_function" "mcp_executor" {
 
   source_code_hash = filebase64sha256("${path.module}/lambda_payload.zip")
 
-  environment {
-    variables = {
-      AWS_REGION     = var.aws_region
-      S3_BUCKET_NAME = var.s3_bucket_name
-    }
-  }
-
   depends_on = [
     aws_cloudwatch_log_group.lambda_logs
   ]
@@ -44,7 +37,7 @@ resource "aws_lambda_function_url" "mcp_executor" {
   cors {
     allow_credentials = false
     allow_origins     = ["*"]
-    allow_methods     = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    allow_methods     = ["*"]
     allow_headers     = ["*"]
     expose_headers    = ["*"]
     max_age           = 3600
